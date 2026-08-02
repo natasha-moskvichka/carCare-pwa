@@ -1,7 +1,8 @@
+@charset "UTF-8";
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #1a1a1a;
-  color: #f0f0f0;
+  background-color: #121212;
+  color: #e0e0e0;
   margin: 0;
   padding: 20px;
   display: flex;
@@ -17,75 +18,147 @@ body {
 h1 {
   color: #4caf50;
   margin-bottom: 5px;
+  font-size: 28px;
+  text-align: center;
 }
 
 p {
-  color: #888;
+  color: #777;
   margin-top: 0;
   margin-bottom: 25px;
+  text-align: center;
+  font-size: 14px;
 }
 
-.card {
-  background-color: #262626;
+/* Блок Карточки */
+.car-card {
+  background-color: #1e1e1e;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+  border: 1px solid #2d2d2d;
+}
+.car-card__title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: 24px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 8px;
+}
+.car-card__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 16px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 6px;
+}
+.car-card__value {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+/* Блок Вкладок (Табов) */
+.tabs-container {
+  display: flex;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
-h3 {
+.tab-btn {
+  flex: 1;
+  background-color: #1e1e1e;
+  color: #aaaaaa;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+.tab-btn:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.tab-btn.active {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+}
+
+/* Блок Формы Ввода */
+.form-card {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #2d2d2d;
+}
+.form-card__title {
   margin-top: 0;
+  margin-bottom: 15px;
   color: #4caf50;
+  font-size: 18px;
 }
 
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 }
 
 label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #bbb;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 input {
-  background-color: #333;
-  border: 1px solid #444;
-  padding: 10px;
-  border-radius: 6px;
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  padding: 12px;
+  border-radius: 8px;
   color: #fff;
   font-size: 16px;
+  transition: border-color 0.2s;
 }
-
 input:focus {
   outline: none;
   border-color: #4caf50;
 }
 
-button {
+.submit-btn {
   width: 100%;
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 14px;
   font-size: 16px;
   font-weight: bold;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
 }
-
-button:hover {
+.submit-btn:hover {
   background-color: #45a049;
+}
+.submit-btn:active {
+  transform: scale(0.98);
 }
 
 #status {
   text-align: center;
   font-size: 14px;
-  color: #888;
-  margin-top: 15px;
+  color: #666;
+  margin-top: 20px;
+  font-style: italic;
 }
 
 /*# sourceMappingURL=style.css.map */
