@@ -81,7 +81,6 @@ p {
   background-color: var(--card-bg);
   color: var(--text-accent);
   border: 1px solid var(--text-muted);
-  width: fit-content;
 
   &:hover {
     background-color: var(--border-color);
@@ -97,15 +96,15 @@ p {
   margin-bottom: 20px;
   border: 1px solid var(--text-muted);
   flex-direction: column;
+  position: relative;
 
   &__title {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: var(--text-color);
-  font-size: 24px;
-  border-bottom: 2px solid var(--text-accent);
-  padding-bottom: 8px;
-}
+    margin-top: 0;
+    color: var(--text-color);
+    font-size: 24px;
+    border-bottom: 2px solid var(--text-accent);
+    padding-bottom: 8px;
+  }
 
   &__row {
     display: flex;
@@ -117,18 +116,18 @@ p {
     color: var(--text-accent);
     font-weight: 600;
   }
+}
 
-  .info-row {
-    border-bottom: 1px dashed var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px;
-  }
+.info-row {
+  border-bottom: 1px dashed var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+}
 
-  .status-badge {
-    margin: 15px 0;
-  }
+.status-badge {
+  margin: 15px 0;
 }
 
 /* Блок Вкладок (Табов) */
@@ -141,7 +140,7 @@ p {
 .tab-btn {
   flex: 1;
   background-color: var(--card-bg);
-  color:var(--text-accent);
+  color: var(--text-accent);
   border: 1px solid var(--text-muted);
 
   &:hover {
@@ -150,9 +149,10 @@ p {
   }
 
   &--delete {
+    color: var(--error-color);
+
     &:hover {
       background-color: rgba(255, 77, 77, 0.1);
-      color: var(--error-color);
       border-color: var(--error-color);
     }
   }
@@ -162,7 +162,15 @@ p {
   background-color: var(--text-accent);
   color: var(--bg-color);
   border-color: var(--text-accent);
-  box-shadow: 0 0 12px rgba(224, 224, 224 ,0.4);
+  box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
+}
+
+.tab-btn--setting {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 /* Блок Формы Ввода */
@@ -256,7 +264,7 @@ input {
     width: 90%;
     max-width: 350px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   }
 
   &__title {
@@ -276,7 +284,7 @@ input {
 /* Кнопка плюс в табах */
 .tab-btn--add {
   max-width: 50px;
-  background-color:var(--border-color);
+  background-color: var(--border-color);
   color: var(--text-accent);
   border-color: var(--text-accent);
 }

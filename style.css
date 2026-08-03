@@ -81,7 +81,6 @@ p {
   background-color: var(--card-bg);
   color: var(--text-accent);
   border: 1px solid var(--text-muted);
-  width: fit-content;
 }
 .add-btn:hover {
   background-color: var(--border-color);
@@ -96,10 +95,10 @@ p {
   margin-bottom: 20px;
   border: 1px solid var(--text-muted);
   flex-direction: column;
+  position: relative;
 }
 .car-card__title {
   margin-top: 0;
-  margin-bottom: 20px;
   color: var(--text-color);
   font-size: 24px;
   border-bottom: 2px solid var(--text-accent);
@@ -114,14 +113,16 @@ p {
   color: var(--text-accent);
   font-weight: 600;
 }
-.car-card .info-row {
+
+.info-row {
   border-bottom: 1px dashed var(--text-muted);
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 6px;
 }
-.car-card .status-badge {
+
+.status-badge {
   margin: 15px 0;
 }
 
@@ -142,9 +143,11 @@ p {
   background-color: var(--border-color);
   color: var(--text-color);
 }
+.tab-btn--delete {
+  color: var(--error-color);
+}
 .tab-btn--delete:hover {
   background-color: rgba(255, 77, 77, 0.1);
-  color: var(--error-color);
   border-color: var(--error-color);
 }
 
@@ -153,6 +156,14 @@ p {
   color: var(--bg-color);
   border-color: var(--text-accent);
   box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
+}
+
+.tab-btn--setting {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 /* Блок Формы Ввода */

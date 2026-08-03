@@ -21,7 +21,7 @@ class Car {
  }
 }
 
-const garage = [];
+let garage = [];
 
 const currentMileageInput = document.getElementById('currentMileage');
 const oilChangeCostInput = document.getElementById('oilChangeCost');
@@ -42,85 +42,44 @@ const deleteCarBtn = document.getElementById('deleteCarBtn');
 const formCard = document.getElementById('formCard');
 const carCard = document.getElementById('carCard');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
-const body = document.getElementById('body');
 
-themeToggleBtn.addEventListener('click', () => {
-  body.classList.toggle('theme-light-amber');
-})
+function loadGarage () {
+  const rawDate = localStorage.getItem('autoGarage');
 
-confirmAddCarBtn.addEventListener('click', () => {
-  const newCarNameInputValue = newCarNameInput.value;
-  const newCarMileageInputValue = newCarMileageInput.value;
+  if (!rawDate) return;
 
-  if (newCarNameInputValue === '' || newCarMileageInputValue === '') {
-    modalCarWarning.innerText = 'Ошибка! Заполните все поля';
-    modalCarWarning.style.color = '#ff4d4d';
-    return;
-  }
+  const parseGarage = JSON.parse(rawDate);
 
-  const newCar = new Car(newCarNameInputValue, newCarMileageInputValue);
-  garage.push(newCar);
-  currentCarIndex = garage.length - 1;
+  parseGarage.forEach(rowCar => {
+    const restoredCar = new Car(rowCar.name, rowCar.currentMileage);
+    rowCar.history.forEach(rowRecord => {
+      const restoredRecord = new ServiceRecord(rowRecord.type, rowRecord.cost, rowRecord.brand, rowRecord.mileage)
 
-  newCarNameInput.value = '';
-  newCarMileageInput.value = '';
-  addCarModal.classList.remove('modal--open');
-  renderCards();
-  renderTabs();
-})
+    restoredCar.addRecord(restoredRecord);
+    });
 
-closeModalBtn.addEventListener('click', () => {
-  addCarModal.classList.remove('modal--open');
-});
+    garage.push(restoredCar);
+  })
 
-deleteCarBtn.addEventListener('click', () => {
-  garage.splice(currentCarIndex, 1);
-  if (garage.length === 0) {
-    currentCarIndex = null;
-  } else {
+  if (garage.length > 0) {
     currentCarIndex = 0;
   }
+}
 
-  renderCards();
-  renderTabs();
-})
-
-addBtn.addEventListener('click', () => {
-  addCarModal.classList.add('modal--open');
-})
-
-saveBtn.addEventListener('click', () => {
-  const currentMileage = Number(currentMileageInput.value);
-  const oilChangeCost = Number(oilChangeCostInput.value);
-
-  if (currentMileage === 0 || oilChangeCost === 0) {
-    status.innerText = 'Ошибка! Заполните все поля';
-    status.style.color = '#ff4d4d';
-    return;
-  }
-
-  const newRecord = new ServiceRecord('oil', oilChangeCost, 'shell', currentMileage);
-  garage[currentCarIndex].addRecord(newRecord);
-
-  status.innerText = 'Данные успешно сохранены!';
-  status.style.color = '#4caf50';
-
-  currentMileageInput.value = '';
-  oilChangeCostInput.value = '';
-
-  renderCards();
-})
+function saveGarage () {
+  localStorage.setItem('autoGarage', JSON.stringify(garage));
+}
 
 function renderCards () {
-if (garage.length === 0) {
-  deleteCarBtn.style.display = 'none';
-  cardCarName.innerText = "Пожалуйста, добавьте ваш первый автомобиль";
-  cardCarMileage.innerText = '';
-  cardLastOilChange.innerText = '';
-  formCard.style.display = 'none';
-  carCard.style.display = 'none';
-  return;
-}
+  if (garage.length === 0) {
+    deleteCarBtn.style.display = 'none';
+    cardCarName.innerText = "Пожалуйста, добавьте ваш первый автомобиль";
+    cardCarMileage.innerText = '';
+    cardLastOilChange.innerText = '';
+    formCard.style.display = 'none';
+    carCard.style.display = 'none';
+    return;
+  }
 
   const currentCar = garage[currentCarIndex];
   cardCarName.innerText = currentCar.name;
@@ -160,6 +119,78 @@ function renderTabs () {
   })
 }
 
+themeToggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('theme-light-amber');
+})
+
+confirmAddCarBtn.addEventListener('click', () => {
+  const newCarNameInputValue = newCarNameInput.value;
+  const newCarMileageInputValue = newCarMileageInput.value;
+
+  if (newCarNameInputValue === '' || newCarMileageInputValue === '') {
+    modalCarWarning.innerText = 'Ошибка! Заполните все поля';
+    modalCarWarning.style.color = '#ff4d4d';
+    return;
+  }
+
+  const newCar = new Car(newCarNameInputValue, newCarMileageInputValue);
+  garage.push(newCar);
+  saveGarage();
+  currentCarIndex = garage.length - 1;
+
+  newCarNameInput.value = '';
+  newCarMileageInput.value = '';
+  addCarModal.classList.remove('modal--open');
+  renderCards();
+  renderTabs();
+})
+
+closeModalBtn.addEventListener('click', () => {
+  addCarModal.classList.remove('modal--open');
+});
+
+deleteCarBtn.addEventListener('click', () => {
+  garage.splice(currentCarIndex, 1);
+  saveGarage();
+
+  if (garage.length === 0) {
+    currentCarIndex = null;
+  } else {
+    currentCarIndex = 0;
+  }
+
+  renderCards();
+  renderTabs();
+})
+
+addBtn.addEventListener('click', () => {
+  addCarModal.classList.add('modal--open');
+})
+
+saveBtn.addEventListener('click', () => {
+  const currentMileage = Number(currentMileageInput.value);
+  const oilChangeCost = Number(oilChangeCostInput.value);
+
+  if (currentMileage === 0 || oilChangeCost === 0) {
+    status.innerText = 'Ошибка! Заполните все поля';
+    status.style.color = '#ff4d4d';
+    return;
+  }
+
+  const newRecord = new ServiceRecord('oil', oilChangeCost, 'shell', currentMileage);
+  garage[currentCarIndex].addRecord(newRecord);
+  saveGarage();
+
+  status.innerText = 'Данные успешно сохранены!';
+  status.style.color = '#4caf50';
+
+  currentMileageInput.value = '';
+  oilChangeCostInput.value = '';
+
+  renderCards();
+})
+
+loadGarage();
 renderCards();
 renderTabs();
 

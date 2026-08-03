@@ -11,7 +11,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
 </head>
-<body id="body">
+<body>
 
 <div class="container">
     <h1>АвтоБорт</h1>
@@ -23,6 +23,7 @@
 
     <div class="car-card" id="carCard">
         <h2 id="cardCarName" class="car-card__title">Загрузка...</h2>
+        <button type="button" class="btn tab-btn--setting" aria-label="Настройки">⚙</button>
         <div class="info-row">
             <span class="car-card__row">Текущий пробег:</span>
             <strong id="cardCarMileage" class="car-card__value">0 км</strong>
@@ -34,7 +35,8 @@
         <div class="status-badge status-alert" id="cardStatus">
             Статус неизвестен
         </div>
-        <button type="button" class="btn tab-btn--delete" id="deleteCarBtn">❌ Удалить этот автомобиль</button>
+
+        <button type="button" class="btn tab-btn--delete" id="deleteCarBtn">Удалить этот автомобиль</button>
     </div>
 
     <div class="form-card" id="formCard">
