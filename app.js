@@ -42,6 +42,8 @@ const deleteCarBtn = document.getElementById('deleteCarBtn');
 const formCard = document.getElementById('formCard');
 const carCard = document.getElementById('carCard');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
+const serviceModal = document.getElementById('serviceModal');
+const openServiceModalBtn = document.getElementById('openServiceModalBtn');
 
 function loadGarage () {
   const rawDate = localStorage.getItem('autoGarage');
@@ -76,7 +78,6 @@ function renderCards () {
     cardCarName.innerText = "Пожалуйста, добавьте ваш первый автомобиль";
     cardCarMileage.innerText = '';
     cardLastOilChange.innerText = '';
-    formCard.style.display = 'none';
     carCard.style.display = 'none';
     return;
   }
@@ -85,7 +86,6 @@ function renderCards () {
   cardCarName.innerText = currentCar.name;
   cardCarMileage.innerText = currentCar.currentMileage + ' км';
   deleteCarBtn.style.display = 'block';
-  formCard.style.display = 'block';
   carCard.style.display = 'flex';
 
   const historyLength = currentCar.history.length;
@@ -121,6 +121,10 @@ function renderTabs () {
 
 themeToggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('theme-light-amber');
+})
+
+openServiceModalBtn.addEventListener('click', () => {
+  serviceModal.classList.add('modal--open');
 })
 
 confirmAddCarBtn.addEventListener('click', () => {
@@ -171,6 +175,11 @@ saveBtn.addEventListener('click', () => {
   const currentMileage = Number(currentMileageInput.value);
   const oilChangeCost = Number(oilChangeCostInput.value);
 
+
+  // stockInput.addEventListener('input', () => {
+  //   stockInput.value = stockInput.value.replace(/[^0-9]/g, '');
+  // })
+
   if (currentMileage === 0 || oilChangeCost === 0) {
     status.innerText = 'Ошибка! Заполните все поля';
     status.style.color = '#ff4d4d';
@@ -186,6 +195,8 @@ saveBtn.addEventListener('click', () => {
 
   currentMileageInput.value = '';
   oilChangeCostInput.value = '';
+
+  serviceModal.classList.remove('modal--open');
 
   renderCards();
 })

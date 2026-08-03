@@ -119,7 +119,7 @@ p {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px;
+  padding: 12px 6px;
 }
 
 .status-badge {
@@ -264,6 +264,24 @@ input:focus {
   display: flex;
   gap: 10px;
   margin-top: 20px;
+}
+.modal--bottom {
+  align-items: flex-end;
+}
+.modal__content--bottom {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px 20px 0 0;
+  border-bottom: none;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 /* Кнопка плюс в табах */
