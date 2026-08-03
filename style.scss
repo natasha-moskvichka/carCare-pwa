@@ -135,13 +135,19 @@ p {
   display: flex;
   gap: 12px;
   margin: 20px 0;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
-  flex: 1;
   background-color: var(--card-bg);
   color: var(--text-accent);
   border: 1px solid var(--text-muted);
+  flex-shrink: 0;
 
   &:hover {
     background-color: var(--border-color);
