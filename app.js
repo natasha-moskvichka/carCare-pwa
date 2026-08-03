@@ -1,4 +1,4 @@
-let currentCarIndex = 0;
+let currentCarIndex = null;
 
 class ServiceRecord {
   constructor(type, cost, brand, mileage) {
@@ -21,10 +21,7 @@ class Car {
  }
 }
 
-const myAudi = new Car('Audi', 1200);
-const myHonda = new Car('Honda', 3800);
-
-const garage = [myAudi, myHonda];
+const garage = [];
 
 const currentMileageInput = document.getElementById('currentMileage');
 const oilChangeCostInput = document.getElementById('oilChangeCost');
@@ -34,9 +31,65 @@ const tabsContainer = document.getElementById('tabsContainer');
 const cardCarMileage = document.getElementById('cardCarMileage');
 const cardLastOilChange = document.getElementById('cardLastOilChange');
 const cardCarName = document.getElementById('cardCarName');
+const addBtn = document.getElementById('addCarBtn');
+const addCarModal = document.getElementById('addCarModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const confirmAddCarBtn = document.getElementById('confirmAddCarBtn');
+const newCarNameInput = document.getElementById('newCarName');
+const newCarMileageInput = document.getElementById('newCarMileage');
+const modalCarWarning = document.getElementById('modalCarWarning');
+const deleteCarBtn = document.getElementById('deleteCarBtn');
+const formCard = document.getElementById('formCard');
+const carCard = document.getElementById('carCard');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const body = document.getElementById('body');
+
+themeToggleBtn.addEventListener('click', () => {
+  body.classList.toggle('theme-light-amber');
+})
+
+confirmAddCarBtn.addEventListener('click', () => {
+  const newCarNameInputValue = newCarNameInput.value;
+  const newCarMileageInputValue = newCarMileageInput.value;
+
+  if (newCarNameInputValue === '' || newCarMileageInputValue === '') {
+    modalCarWarning.innerText = 'Ошибка! Заполните все поля';
+    modalCarWarning.style.color = '#ff4d4d';
+    return;
+  }
+
+  const newCar = new Car(newCarNameInputValue, newCarMileageInputValue);
+  garage.push(newCar);
+  currentCarIndex = garage.length - 1;
+
+  newCarNameInput.value = '';
+  newCarMileageInput.value = '';
+  addCarModal.classList.remove('modal--open');
+  renderCards();
+  renderTabs();
+})
+
+closeModalBtn.addEventListener('click', () => {
+  addCarModal.classList.remove('modal--open');
+});
+
+deleteCarBtn.addEventListener('click', () => {
+  garage.splice(currentCarIndex, 1);
+  if (garage.length === 0) {
+    currentCarIndex = null;
+  } else {
+    currentCarIndex = 0;
+  }
+
+  renderCards();
+  renderTabs();
+})
+
+addBtn.addEventListener('click', () => {
+  addCarModal.classList.add('modal--open');
+})
 
 saveBtn.addEventListener('click', () => {
-
   const currentMileage = Number(currentMileageInput.value);
   const oilChangeCost = Number(oilChangeCostInput.value);
 
@@ -59,13 +112,24 @@ saveBtn.addEventListener('click', () => {
 })
 
 function renderCards () {
+if (garage.length === 0) {
+  deleteCarBtn.style.display = 'none';
+  cardCarName.innerText = "Пожалуйста, добавьте ваш первый автомобиль";
+  cardCarMileage.innerText = '';
+  cardLastOilChange.innerText = '';
+  formCard.style.display = 'none';
+  carCard.style.display = 'none';
+  return;
+}
 
   const currentCar = garage[currentCarIndex];
   cardCarName.innerText = currentCar.name;
   cardCarMileage.innerText = currentCar.currentMileage + ' км';
+  deleteCarBtn.style.display = 'block';
+  formCard.style.display = 'block';
+  carCard.style.display = 'flex';
 
   const historyLength = currentCar.history.length;
-  console.log(historyLength)
 
   if (historyLength === 0) {
     cardLastOilChange.innerText = 'Нет данных';

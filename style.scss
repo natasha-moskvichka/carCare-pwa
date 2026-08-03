@@ -1,7 +1,36 @@
+:root {
+  --bg-color: #0a0a0a;
+  --card-bg: #161616;
+  --text-color: #ffffff;
+  --text-muted: #888888;
+  --text-accent: #e0e0e0;
+  --error-color: #ff4d4d;
+  --border-color: #2d2d2d;
+  --input-color: #3d3d3d;
+}
+
+body.theme-light-amber {
+  --bg-color: #f5f5f7;
+  --card-bg: #ffffff;
+  --text-color: #1d1d1f;
+  --text-muted: #86868b;
+  --text-accent: #ff6b00;
+  --border-color: #e5e5ea;
+  --input-color: #f2f2f7;
+  --error-color: #d92d20;
+}
+
+
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   margin: 0;
   padding: 20px;
   display: flex;
@@ -12,17 +41,22 @@ body {
   width: 100%;
   max-width: 400px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 44px;
 }
 
 h1 {
-  color: #4caf50;
+  color: var(--text-accent);
   margin-bottom: 5px;
   font-size: 28px;
   text-align: center;
 }
 
 p {
-  color: #777;
+  color: var(--text-muted);
   margin-top: 0;
   margin-bottom: 25px;
   text-align: center;
@@ -41,45 +75,60 @@ p {
   min-width: 44px;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
 }
 
 .add-btn {
-  background-color: #1e1e1e;
-  color: #aaaaaa;
-  border: 1px solid #333;
-  margin-bottom: 25px;
+  background-color: var(--card-bg);
+  color: var(--text-accent);
+  border: 1px solid var(--text-muted);
+  width: fit-content;
+
+  &:hover {
+    background-color: var(--border-color);
+  }
 }
 
 /* Блок Карточки */
 .car-card {
-  background-color: #1e1e1e;
+  background-color: var(--card-bg);
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   margin-bottom: 20px;
-  border: 1px solid #2d2d2d;
+  border: 1px solid var(--text-muted);
+  flex-direction: column;
 
   &__title {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 24px;
-  border-bottom: 2px solid #4caf50;
+  border-bottom: 2px solid var(--text-accent);
   padding-bottom: 8px;
 }
 
   &__row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
     font-size: 16px;
-    border-bottom: 1px dashed #333;
-    padding-bottom: 6px;
   }
 
   &__value {
-    color: #4caf50;
+    color: var(--text-accent);
     font-weight: 600;
+  }
+
+  .info-row {
+    border-bottom: 1px dashed var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px;
+  }
+
+  .status-badge {
+    margin: 15px 0;
   }
 }
 
@@ -87,46 +136,48 @@ p {
 .tabs-container {
   display: flex;
   gap: 12px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .tab-btn {
   flex: 1;
-  background-color: #1e1e1e;
-  color: #aaaaaa;
-  border: 1px solid #333;
-  //padding: 12px;
-  //border-radius: 10px;
-  //cursor: pointer;
-  //font-weight: bold;
-  //font-size: 15px;
-  //transition: all 0.2s ease;
+  background-color: var(--card-bg);
+  color:var(--text-accent);
+  border: 1px solid var(--text-muted);
 
   &:hover {
-    background-color: #2a2a2a;
-    color: #fff;
+    background-color: var(--border-color);
+    color: var(--text-color);
+  }
+
+  &--delete {
+    &:hover {
+      background-color: rgba(255, 77, 77, 0.1);
+      color: var(--error-color);
+      border-color: var(--error-color);
+    }
   }
 }
 
 .tab-btn.active {
-  background-color: #4caf50;
-  color: white;
-  border-color: #4caf50;
-  box-shadow: 0 0 12px rgba(76,175,80,0.4);
+  background-color: var(--text-accent);
+  color: var(--bg-color);
+  border-color: var(--text-accent);
+  box-shadow: 0 0 12px rgba(224, 224, 224 ,0.4);
 }
 
 /* Блок Формы Ввода */
 .form-card {
-  background-color: #1e1e1e;
+  background-color: var(--card-bg);
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-  border: 1px solid #2d2d2d;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
 
   &__title {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #4caf50;
+    color: var(--text-accent);
     font-size: 18px;
   }
 }
@@ -140,30 +191,31 @@ p {
 label {
   font-size: 13px;
   margin-bottom: 6px;
-  color: #888;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 input {
-  background-color: #2d2d2d;
-  border: 1px solid #3d3d3d;
+  background-color: var(--border-color);
+  border: 1px solid var(--input-color);
   padding: 12px;
   border-radius: 8px;
-  color: #fff;
+  color: var(--text-color);
   font-size: 16px;
   transition: border-color 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #4caf50;
+    border-color: var(--text-accent);
   }
 }
 
 .submit-btn {
   width: 100%;
-  background-color: #4caf50;
-  color: white;
+  flex: 1;
+  background-color: var(--text-accent);
+  color: var(--bg-color);
   border: none;
   padding: 14px;
   font-size: 16px;
@@ -173,12 +225,67 @@ input {
   transition: background 0.2s, transform 0.1s;
 
   &:hover {
-    background-color: #45a049;
+    background-color: var(--text-muted);
   }
 
   &:active {
     transform: scale(0.98);
   }
+}
+
+/* Блок Модального Окна */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &--open {
+    display: flex;
+  }
+
+  &__content {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 350px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-accent);
+    font-size: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+}
+
+/* Кнопка плюс в табах */
+.tab-btn--add {
+  max-width: 50px;
+  background-color:var(--border-color);
+  color: var(--text-accent);
+  border-color: var(--text-accent);
+}
+
+.btn__toggle-theme {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 #status {

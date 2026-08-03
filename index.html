@@ -11,34 +11,34 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body id="body">
 
 <div class="container">
-    <h1>🤖 АвтоБорт</h1>
-    <p>Контроль расходов и пробега</p>
-
-<!--    <button type="button" class="btn add-btn" aria-label="Добавить автомобиль">+</button>-->
-
+    <h1>АвтоБорт</h1>
+    <button id="themeToggleBtn" class="btn btn__toggle-theme">☀️/🌙</button>
+    <p>Контроль обслуживания</p>
+    <button type="button" class="btn add-btn" id="addCarBtn" aria-label="Добавить автомобиль">Добавить автомобиль</button>
     <div class="tabs-container" id="tabsContainer">
     </div>
 
-    <div class="car-card " id="carCard">
+    <div class="car-card" id="carCard">
         <h2 id="cardCarName" class="car-card__title">Загрузка...</h2>
         <div class="info-row">
-            <span class="car-card__row">📈 Текущий пробег:</span>
+            <span class="car-card__row">Текущий пробег:</span>
             <strong id="cardCarMileage" class="car-card__value">0 км</strong>
         </div>
         <div class="info-row">
-            <span class="car-card__row">🛢️ Последняя замена масла:</span>
+            <span class="car-card__row">Последняя замена масла:</span>
             <strong id="cardLastOilChange" class="car-card__value">Нет данных</strong>
         </div>
         <div class="status-badge status-alert" id="cardStatus">
             Статус неизвестен
         </div>
+        <button type="button" class="btn tab-btn--delete" id="deleteCarBtn">❌ Удалить этот автомобиль</button>
     </div>
 
-    <div class="form-card">
-        <h3 class="form-card__title">📝 Внести новую запись</h3>
+    <div class="form-card" id="formCard">
+        <h3 class="form-card__title">Внести новую запись</h3>
         <div class="input-group">
             <label for="currentMileage">Текущий пробег на момент ТО (км):</label>
             <input type="number" id="currentMileage" placeholder="Например: 45000">
@@ -49,10 +49,34 @@
             <input type="number" id="oilChangeCost" placeholder="Например: 6000">
         </div>
 
-        <button id="saveBtn" class="btn submit-btn">Сохранить в бортжурнал</button>
+        <button id="saveBtn" class="btn submit-btn">Сохранить в журнал</button>
+    </div>
+
+    <div class="modal" id="addCarModal">
+        <div class="modal__content">
+            <h3 class="modal__title">Добавить автомобиль</h3>
+
+            <div class="input-group">
+                <label for="newCarName">Марка и модель:</label>
+                <input type="text" id="newCarName" placeholder="Например: Honda Civic">
+            </div>
+
+            <div class="input-group">
+                <label for="newCarMileage">Начальный пробег (км):</label>
+                <input type="number" id="newCarMileage" placeholder="Например: 120000">
+            </div>
+
+            <strong id="modalCarWarning" class="modal__car--warning">Нет данных</strong>
+
+            <div class="modal__actions">
+                <button type="button" class="btn submit-btn" id="confirmAddCarBtn">Создать</button>
+                <button type="button" class="btn tab-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </div>
     </div>
 
     <div id="status">Система готова к работе</div>
+
 </div>
 
 <script src="app.js"></script>
