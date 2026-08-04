@@ -1,11 +1,38 @@
+const html = document.documentElement;
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+const saveTheme = localStorage.getItem('theme') || 'light';
+  html.setAttribute('data-theme', saveTheme);
+
+function toggleTheme () {
+  let currentTheme = html.getAttribute('data-theme');
+  let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+
+  renderThemeIcon();
+}
+
+function renderThemeIcon() {
+  const currentTheme = html.getAttribute('data-theme');
+  if (currentTheme === 'light') {
+    themeToggleBtn.innerHTML = `<svg class="icon-theme"><use href="fonts/sprite.svg#light-theme"></use></svg>`;
+  } else {
+    themeToggleBtn.innerHTML = `<svg class="icon-theme"><use href="fonts/sprite.svg#dark-theme"></use></svg>`;
+  }
+}
+
+themeToggleBtn.addEventListener('click', toggleTheme);
+
 let currentCarIndex = null;
 
 class ServiceRecord {
-  constructor(type, cost, brand, mileage) {
+  constructor(type, cost, brand, mileage, date) {
     this.type = type;
     this.cost = cost;
     this.brand = brand;
     this.mileage = mileage;
+    this.date = date;
   }
 }
 
@@ -28,7 +55,6 @@ const oilChangeCostInput = document.getElementById('oilChangeCost');
 const saveBtn = document.getElementById('saveBtn');
 const status = document.getElementById('status');
 const tabsContainer = document.getElementById('tabsContainer');
-const cardCarMileage = document.getElementById('cardCarMileage');
 const cardLastOilChange = document.getElementById('cardLastOilChange');
 const cardCarName = document.getElementById('cardCarName');
 const addBtn = document.getElementById('addCarBtn');
@@ -39,11 +65,19 @@ const newCarNameInput = document.getElementById('newCarName');
 const newCarMileageInput = document.getElementById('newCarMileage');
 const modalCarWarning = document.getElementById('modalCarWarning');
 const deleteCarBtn = document.getElementById('deleteCarBtn');
-const formCard = document.getElementById('formCard');
 const carCard = document.getElementById('carCard');
-const themeToggleBtn = document.getElementById('themeToggleBtn');
+
 const serviceModal = document.getElementById('serviceModal');
 const openServiceModalBtn = document.getElementById('openServiceModalBtn');
+const oilChangeDateInput = document.getElementById('oilChangeDate');
+
+const carHistory = document.getElementById('carHistory');
+const historyList = document.getElementById('historyList');
+
+const cardStatus = document.getElementById('cardStatus');
+const historyTotal = document.getElementById('historyTotal');
+const cardCarMileageInput = document.getElementById('cardCarMileageInput');
+console.log(cardCarMileageInput)
 
 function loadGarage () {
   const rawDate = localStorage.getItem('autoGarage');
@@ -55,7 +89,7 @@ function loadGarage () {
   parseGarage.forEach(rowCar => {
     const restoredCar = new Car(rowCar.name, rowCar.currentMileage);
     rowCar.history.forEach(rowRecord => {
-      const restoredRecord = new ServiceRecord(rowRecord.type, rowRecord.cost, rowRecord.brand, rowRecord.mileage)
+      const restoredRecord = new ServiceRecord(rowRecord.type, rowRecord.cost, rowRecord.brand, rowRecord.mileage, rowRecord.date)
 
     restoredCar.addRecord(restoredRecord);
     });
@@ -73,28 +107,69 @@ function saveGarage () {
 }
 
 function renderCards () {
+  historyList.innerHTML = '';
+  let totalCost = 0;
+
   if (garage.length === 0) {
     deleteCarBtn.style.display = 'none';
     cardCarName.innerText = "Пожалуйста, добавьте ваш первый автомобиль";
-    cardCarMileage.innerText = '';
     cardLastOilChange.innerText = '';
     carCard.style.display = 'none';
+    carHistory.style.display = 'none';
     return;
   }
 
   const currentCar = garage[currentCarIndex];
   cardCarName.innerText = currentCar.name;
-  cardCarMileage.innerText = currentCar.currentMileage + ' км';
+  cardCarMileageInput.value = currentCar.currentMileage;
   deleteCarBtn.style.display = 'block';
   carCard.style.display = 'flex';
+  carHistory.style.display = 'block';
 
   const historyLength = currentCar.history.length;
 
   if (historyLength === 0) {
-    cardLastOilChange.innerText = 'Нет данных';
+    historyList.innerHTML = '<p>Журнал пока пуст</p>';
+    cardStatus.className = 'status--good';
+    cardStatus.innerText = 'Новая машина, история пуста';
+
   } else {
     const  lastRecord = currentCar.history[historyLength - 1];
     cardLastOilChange.innerText = `${lastRecord.mileage} км`;
+
+    const lastRepairDate = new Date(lastRecord.date);
+    const today = new Date();
+    const diffInMs = today - lastRepairDate;
+    const daysPassed = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const kmPassed = currentCar.currentMileage - lastRecord.mileage;
+
+    if (daysPassed > 300) {
+      cardStatus.classList.add('status--error');
+      cardStatus.classList.remove('status--good');
+      cardStatus.innerText = 'Пора на ТО (прошло более 10 месяцев)!';
+    } else if (kmPassed > 10000) {
+      cardStatus.classList.remove('status--error');
+      cardStatus.classList.add('status--good');
+      cardStatus.innerText = 'Пора на ТО (пробег после замены > 10 000 км)!';
+    } else {
+      cardStatus.innerText = 'Автомобиль обслужен!'
+    }
+
+    currentCar.history.forEach(record => {
+      const itemHTML = `
+      <div class="history-item">
+      <div class="history-item__main">
+      <span class="history-item__type">${record.type === 'oil' ? 'Замена масла' : record.type}</span>
+      <span class="history-item__meta">Пробег: ${record.mileage} км | Дата: ${record.date}</span>  
+</div>
+       <span class="history-item__cost">${record.cost} ₽</span>
+</div>`;
+
+      totalCost += record.cost;
+      historyList.insertAdjacentHTML("beforeend", itemHTML);
+    })
+
+    historyTotal.innerText = `Всего расходов: ${totalCost} ₽`;
   }
 }
 
@@ -119,9 +194,15 @@ function renderTabs () {
   })
 }
 
-themeToggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('theme-light-amber');
-})
+cardCarMileageInput.addEventListener('blur', () => {
+  const updatedMileage = Number(cardCarMileageInput.value);
+
+  if (updatedMileage > 0) {
+    garage[currentCarIndex].currentMileage = updatedMileage;
+    renderCards();
+    saveGarage();
+  }
+});
 
 openServiceModalBtn.addEventListener('click', () => {
   serviceModal.classList.add('modal--open');
@@ -174,19 +255,20 @@ addBtn.addEventListener('click', () => {
 saveBtn.addEventListener('click', () => {
   const currentMileage = Number(currentMileageInput.value);
   const oilChangeCost = Number(oilChangeCostInput.value);
+  const oilChangeDate = oilChangeDateInput.value;
 
 
   // stockInput.addEventListener('input', () => {
   //   stockInput.value = stockInput.value.replace(/[^0-9]/g, '');
   // })
 
-  if (currentMileage === 0 || oilChangeCost === 0) {
+  if (currentMileage === 0 || oilChangeCost === 0 || oilChangeDate === '') {
     status.innerText = 'Ошибка! Заполните все поля';
     status.style.color = '#ff4d4d';
     return;
   }
 
-  const newRecord = new ServiceRecord('oil', oilChangeCost, 'shell', currentMileage);
+  const newRecord = new ServiceRecord('oil', oilChangeCost, 'shell', currentMileage, oilChangeDate);
   garage[currentCarIndex].addRecord(newRecord);
   saveGarage();
 
@@ -195,13 +277,20 @@ saveBtn.addEventListener('click', () => {
 
   currentMileageInput.value = '';
   oilChangeCostInput.value = '';
+  oilChangeDateInput.value = '';
 
   serviceModal.classList.remove('modal--open');
 
   renderCards();
+});
+
+serviceModal.addEventListener('click', (evt) => {
+  if (evt.target === serviceModal) {
+    serviceModal.classList.remove('modal--open');
+  }
 })
 
 loadGarage();
 renderCards();
 renderTabs();
-
+renderThemeIcon()
