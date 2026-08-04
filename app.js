@@ -130,8 +130,8 @@ function renderCards () {
 
   if (historyLength === 0) {
     historyList.innerHTML = '<p>Журнал пока пуст</p>';
-    cardStatus.className = 'status--good';
-    cardStatus.innerText = 'Новая машина, история пуста';
+    cardStatus.className = 'status-badge status--good';
+    cardStatus.innerText = 'История пуста';
 
   } else {
     const  lastRecord = currentCar.history[historyLength - 1];
