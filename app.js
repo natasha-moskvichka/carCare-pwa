@@ -77,7 +77,10 @@ const historyList = document.getElementById('historyList');
 const cardStatus = document.getElementById('cardStatus');
 const historyTotal = document.getElementById('historyTotal');
 const cardCarMileageInput = document.getElementById('cardCarMileageInput');
-console.log(cardCarMileageInput)
+
+const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+const trueDeleteBtn = document.getElementById('trueDeleteBtn');
+const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
 function loadGarage () {
   const rawDate = localStorage.getItem('autoGarage');
@@ -130,7 +133,7 @@ function renderCards () {
 
   if (historyLength === 0) {
     historyList.innerHTML = '<p>Журнал пока пуст</p>';
-    cardStatus.className = 'status-badge status--good';
+    cardStatus.className = 'status-badge status--info';
     cardStatus.innerText = 'История пуста';
 
   } else {
@@ -159,7 +162,7 @@ function renderCards () {
       const itemHTML = `
       <div class="history-item">
       <div class="history-item__main">
-      <span class="history-item__type">${record.type === 'oil' ? 'Замена масла' : record.type}</span>
+      <span class="history-item__type">${record.type}</span>
       <span class="history-item__meta">Пробег: ${record.mileage} км | Дата: ${record.date}</span>  
 </div>
        <span class="history-item__cost">${record.cost} ₽</span>
@@ -197,7 +200,7 @@ function renderTabs () {
 cardCarMileageInput.addEventListener('blur', () => {
   const updatedMileage = Number(cardCarMileageInput.value);
 
-  if (updatedMileage > 0) {
+  if (updatedMileage > 0 || updatedMileage >= cardLastOilChange.mileage ) {
     garage[currentCarIndex].currentMileage = updatedMileage;
     renderCards();
     saveGarage();
@@ -235,6 +238,14 @@ closeModalBtn.addEventListener('click', () => {
 });
 
 deleteCarBtn.addEventListener('click', () => {
+  deleteConfirmModal.classList.add('modal--open');
+});
+
+cancelDeleteBtn.addEventListener('click', () => {
+  deleteConfirmModal.classList.remove('modal--open');
+});
+
+trueDeleteBtn.addEventListener('click', () => {
   garage.splice(currentCarIndex, 1);
   saveGarage();
 
@@ -243,6 +254,8 @@ deleteCarBtn.addEventListener('click', () => {
   } else {
     currentCarIndex = 0;
   }
+
+  deleteConfirmModal.classList.remove('modal--open');
 
   renderCards();
   renderTabs();
@@ -256,7 +269,7 @@ saveBtn.addEventListener('click', () => {
   const currentMileage = Number(currentMileageInput.value);
   const oilChangeCost = Number(oilChangeCostInput.value);
   const oilChangeDate = oilChangeDateInput.value;
-
+  const serviceType = document.getElementById('serviceTypeInput');
 
   // stockInput.addEventListener('input', () => {
   //   stockInput.value = stockInput.value.replace(/[^0-9]/g, '');
@@ -268,7 +281,7 @@ saveBtn.addEventListener('click', () => {
     return;
   }
 
-  const newRecord = new ServiceRecord('oil', oilChangeCost, 'shell', currentMileage, oilChangeDate);
+  const newRecord = new ServiceRecord(serviceType.value, oilChangeCost, 'shell', currentMileage, oilChangeDate);
   garage[currentCarIndex].addRecord(newRecord);
   saveGarage();
 
@@ -278,6 +291,7 @@ saveBtn.addEventListener('click', () => {
   currentMileageInput.value = '';
   oilChangeCostInput.value = '';
   oilChangeDateInput.value = '';
+  serviceType.value = '';
 
   serviceModal.classList.remove('modal--open');
 

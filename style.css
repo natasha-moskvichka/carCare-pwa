@@ -146,13 +146,16 @@ p {
   color: var(--error-color);
 }
 
+.status--info {
+  color: var(--text-muted);
+}
+
 /* Блок Истории */
 .car-history {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
 }
-
 .car-history__title {
   font-size: 16px;
   color: var(--text-muted);
@@ -161,11 +164,13 @@ p {
   margin-bottom: 10px;
   text-align: center;
 }
-
 .car-history__list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.car-history__total {
+  padding: 16px;
 }
 
 /* Карточка одного чека */
@@ -226,20 +231,19 @@ p {
   background-color: rgba(255, 77, 77, 0.1);
   border-color: var(--error-color);
 }
-
-.tab-btn.active {
-  background-color: var(--text-accent);
-  color: var(--bg-color);
-  border-color: var(--text-accent);
-  box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
-}
-
 .tab-btn--setting {
   position: absolute;
   top: 10px;
   right: 20px;
   min-width: 44px;
   min-height: 44px;
+}
+
+.tab-btn.active {
+  background-color: var(--text-accent);
+  color: var(--bg-color);
+  border-color: var(--text-accent);
+  box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
 }
 
 /* Блок Формы Ввода */
@@ -335,6 +339,10 @@ input:focus {
   margin-bottom: 20px;
   color: var(--text-accent);
   font-size: 20px;
+}
+.modal__title--warning {
+  color: var(--error-color);
+  text-align: center;
 }
 .modal__actions {
   display: flex;

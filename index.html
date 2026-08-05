@@ -68,6 +68,9 @@
                     <option value="Замена колодок">Замена колодок</option>
                     <option value="Замена свечей зажигания">Замена свечей зажигания</option>
                     <option value="Замена аккумулятора">Замена аккумулятора</option>
+                    <option value="Замена воздушного фильтра">Замена воздушного фильтра</option>
+                    <option value="Ремонт подвески">Ремонт подвески</option>
+                    <option value="Диагностика электрики">Диагностика электрики</option>
                 </datalist>
             </div>
 
@@ -113,7 +116,20 @@
         </div>
     </div>
 
- <div id="status"></div>
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal__content">
+            <h3 class="modal__title modal__title--warning">Подтвердите удаление</h3>
+            <p>Вы точно хотите навсегда удалить этот автомобиль и всю его историю? Восстановить данные будет невозможно.</p>
+
+            <div class="modal__actions">
+                <button type="button" class="btn submit-btn" id="trueDeleteBtn" style="background-color: var(--error-color);">Да, удалить</button>
+                <button type="button" class="btn tab-btn" id="cancelDeleteBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="status"></div>
 
 </div>
 

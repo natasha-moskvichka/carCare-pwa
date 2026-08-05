@@ -143,36 +143,41 @@ p {
 }
 
 .status--good {
-  //background-color: rgba(76, 175, 80, 0.1);
   color: var(--success-color);
-  //border: 1px solid var(--success-color);
 }
 
 .status--error {
-  //background-color: rgba(255, 77, 77, 0.1);
   color: var(--error-color);
-  //border: 1px solid var(--error-color);
 }
 
+.status--info {
+  color: var(--text-muted);
+}
 
 /* Блок Истории */
 .car-history {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
-}
-.car-history__title {
-  font-size: 16px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.car-history__list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+
+  &__title {
+    font-size: 16px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__total {
+    padding: 16px;
+  }
 }
 
 /* Карточка одного чека */
@@ -239,6 +244,14 @@ p {
       border-color: var(--error-color);
     }
   }
+
+  &--setting {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
 .tab-btn.active {
@@ -248,13 +261,6 @@ p {
   box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
 }
 
-.tab-btn--setting {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  min-width: 44px;
-  min-height: 44px;
-}
 
 /* Блок Формы Ввода */
 .form-card {
@@ -355,6 +361,11 @@ input {
     margin-bottom: 20px;
     color: var(--text-accent);
     font-size: 20px;
+  }
+
+  &__title--warning {
+    color: var(--error-color);
+    text-align: center;
   }
 
   &__actions {
