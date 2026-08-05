@@ -2,9 +2,9 @@ const html = document.documentElement;
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 const saveTheme = localStorage.getItem('theme') || 'light';
-  html.setAttribute('data-theme', saveTheme);
+html.setAttribute('data-theme', saveTheme);
 
-function toggleTheme () {
+function toggleTheme() {
   let currentTheme = html.getAttribute('data-theme');
   let newTheme = currentTheme === 'light' ? 'dark' : 'light';
   html.setAttribute('data-theme', newTheme);
@@ -43,9 +43,9 @@ class Car {
     this.history = [];
   }
 
- addRecord(record) {
+  addRecord(record) {
     this.history.push(record);
- }
+  }
 }
 
 let garage = [];
@@ -81,8 +81,9 @@ const cardCarMileageInput = document.getElementById('cardCarMileageInput');
 const deleteConfirmModal = document.getElementById('deleteConfirmModal');
 const trueDeleteBtn = document.getElementById('trueDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+const cardStatsContainer = document.getElementById('cardStatsContainer');
 
-function loadGarage () {
+function loadGarage() {
   const rawDate = localStorage.getItem('autoGarage');
 
   if (!rawDate) return;
@@ -94,7 +95,7 @@ function loadGarage () {
     rowCar.history.forEach(rowRecord => {
       const restoredRecord = new ServiceRecord(rowRecord.type, rowRecord.cost, rowRecord.brand, rowRecord.mileage, rowRecord.date)
 
-    restoredCar.addRecord(restoredRecord);
+      restoredCar.addRecord(restoredRecord);
     });
 
     garage.push(restoredCar);
@@ -105,13 +106,15 @@ function loadGarage () {
   }
 }
 
-function saveGarage () {
+function saveGarage() {
   localStorage.setItem('autoGarage', JSON.stringify(garage));
 }
 
-function renderCards () {
+function renderCards() {
   historyList.innerHTML = '';
+  cardStatsContainer.innerHTML = '';
   let totalCost = 0;
+  const lastRepairs = {};
 
   if (garage.length === 0) {
     deleteCarBtn.style.display = 'none';
@@ -137,7 +140,7 @@ function renderCards () {
     cardStatus.innerText = 'История пуста';
 
   } else {
-    const  lastRecord = currentCar.history[historyLength - 1];
+    const lastRecord = currentCar.history[historyLength - 1];
     cardLastOilChange.innerText = `${lastRecord.mileage} км`;
 
     const lastRepairDate = new Date(lastRecord.date);
@@ -155,6 +158,7 @@ function renderCards () {
       cardStatus.classList.add('status--good');
       cardStatus.innerText = 'Пора на ТО (пробег после замены > 10 000 км)!';
     } else {
+      cardStatus.classList.add('status--good');
       cardStatus.innerText = 'Автомобиль обслужен!'
     }
 
@@ -169,14 +173,25 @@ function renderCards () {
 </div>`;
 
       totalCost += record.cost;
+      lastRepairs[record.type] = record;
+      console.log(lastRepairs);
+      Object.values(lastRepairs).forEach(repair => {
+        const rowHTML = `
+          <div class="info-row">
+           <span class="car-card__row">Последний ремонт: ${repair.type}<strong class="car-card__value"></strong></span>
+          </div>
+`
+        cardStatsContainer.insertAdjacentHTML("beforeend", rowHTML);
+      })
       historyList.insertAdjacentHTML("beforeend", itemHTML);
     })
 
     historyTotal.innerText = `Всего расходов: ${totalCost} ₽`;
+
   }
 }
 
-function renderTabs () {
+function renderTabs() {
   tabsContainer.innerText = '';
   garage.forEach((car, index) => {
     const btn = document.createElement('button');
@@ -200,7 +215,7 @@ function renderTabs () {
 cardCarMileageInput.addEventListener('blur', () => {
   const updatedMileage = Number(cardCarMileageInput.value);
 
-  if (updatedMileage > 0 || updatedMileage >= cardLastOilChange.mileage ) {
+  if (updatedMileage > 0 || updatedMileage >= cardLastOilChange.mileage) {
     garage[currentCarIndex].currentMileage = updatedMileage;
     renderCards();
     saveGarage();

@@ -329,6 +329,29 @@ input {
   }
 }
 
+.delete-btn {
+  width: 100%;
+  flex: 1;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+
+  &:hover {
+    color: var(--card-bg);
+    background-color: var(--error-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+
 /* Блок Модального Окна */
 .modal {
   position: fixed;
@@ -407,7 +430,8 @@ input {
   top: 0;
 }
 
-.icon-theme {
+.icon-theme,
+svg {
   width: 24px;
   height: 24px;
 }
