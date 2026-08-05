@@ -154,8 +154,8 @@ function renderCards() {
       cardStatus.classList.remove('status--good');
       cardStatus.innerText = 'Пора на ТО (прошло более 10 месяцев)!';
     } else if (kmPassed > 10000) {
-      cardStatus.classList.remove('status--error');
-      cardStatus.classList.add('status--good');
+      cardStatus.classList.add('status--error');
+      cardStatus.classList.remove('status--good');
       cardStatus.innerText = 'Пора на ТО (пробег после замены > 10 000 км)!';
     } else {
       cardStatus.classList.add('status--good');
