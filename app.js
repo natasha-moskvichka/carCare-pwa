@@ -174,18 +174,18 @@ function renderCards() {
 
       totalCost += record.cost;
       lastRepairs[record.type] = record;
-      console.log(lastRepairs);
-      Object.values(lastRepairs).forEach(repair => {
-        const rowHTML = `
-          <div class="info-row">
-           <span class="car-card__row">Последний ремонт: ${repair.type}<strong class="car-card__value"></strong></span>
-          </div>
-`
-        cardStatsContainer.insertAdjacentHTML("beforeend", rowHTML);
-      })
+
       historyList.insertAdjacentHTML("beforeend", itemHTML);
     })
 
+    Object.values(lastRepairs).forEach(repair => {
+      const rowHTML = `
+          <div class="info-row">
+           <span class="car-card__row">Последний ремонт: <strong class="car-card__value">${repair.type}</strong></span>
+          </div>
+`
+      cardStatsContainer.insertAdjacentHTML("beforeend", rowHTML);
+    })
     historyTotal.innerText = `Всего расходов: ${totalCost} ₽`;
 
   }

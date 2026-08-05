@@ -110,6 +110,7 @@ p {
   display: flex;
   justify-content: space-between;
   font-size: 16px;
+  gap: 10px;
 }
 .car-card__input-mileage {
   background: transparent;
