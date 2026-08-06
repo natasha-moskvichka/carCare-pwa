@@ -306,6 +306,10 @@ input {
     outline: none;
     border-color: var(--text-accent);
   }
+
+  &::placeholder {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 }
 
 .submit-btn {
@@ -402,9 +406,12 @@ input {
     margin-top: 20px;
   }
 
+  &__actions--centered {
+    justify-content: center;
+  }
+
   &--bottom {
     align-items: flex-end;
-
   }
 
   &__content--bottom {
@@ -413,6 +420,13 @@ input {
     border-radius: 20px 20px 0 0;
     border-bottom: none;
     animation: slideUp 0.3s ease-out;
+  }
+
+  &__car--warning {
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
   }
 
   @keyframes slideUp {
