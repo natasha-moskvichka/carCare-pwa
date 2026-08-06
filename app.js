@@ -236,7 +236,6 @@ cardCarMileageInput.addEventListener('blur', () => {
   const lastRecord = currentCar.history[currentCar.history.length - 1];
 
   const minMileage = lastRecord ? lastRecord.mileage : 0;
-  console.log(minMileage)
 
   if (updatedMileage < minMileage) {
 
