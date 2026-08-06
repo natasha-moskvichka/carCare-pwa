@@ -83,6 +83,14 @@ const trueDeleteBtn = document.getElementById('trueDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 const cardStatsContainer = document.getElementById('cardStatsContainer');
 
+const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
+
+inputsToValidate.forEach(input => {
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+  })
+})
+
 function loadGarage() {
   const rawDate = localStorage.getItem('autoGarage');
 
@@ -285,10 +293,6 @@ saveBtn.addEventListener('click', () => {
   const oilChangeCost = Number(oilChangeCostInput.value);
   const oilChangeDate = oilChangeDateInput.value;
   const serviceType = document.getElementById('serviceTypeInput');
-
-  // stockInput.addEventListener('input', () => {
-  //   stockInput.value = stockInput.value.replace(/[^0-9]/g, '');
-  // })
 
   if (currentMileage === 0 || oilChangeCost === 0 || oilChangeDate === '') {
     status.innerText = 'Ошибка! Заполните все поля';
