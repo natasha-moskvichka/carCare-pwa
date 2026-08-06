@@ -60,6 +60,7 @@ const cardCarName = document.getElementById('cardCarName');
 const addBtn = document.getElementById('addCarBtn');
 const addCarModal = document.getElementById('addCarModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const closeErrorModalBtn = document.getElementById('closeErrorModalBtn');
 const confirmAddCarBtn = document.getElementById('confirmAddCarBtn');
 const newCarNameInput = document.getElementById('newCarName');
 const newCarMileageInput = document.getElementById('newCarMileage');
@@ -82,6 +83,8 @@ const deleteConfirmModal = document.getElementById('deleteConfirmModal');
 const trueDeleteBtn = document.getElementById('trueDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 const cardStatsContainer = document.getElementById('cardStatsContainer');
+
+const errorMinMileageModal = document.getElementById('errorMinMileageModal');
 
 const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
 
@@ -142,6 +145,8 @@ function renderCards() {
 
   const historyLength = currentCar.history.length;
 
+  const lastOilChange = currentCar.history.findLast(record => record.type === 'Замена масла');
+
   if (historyLength === 0) {
     historyList.innerHTML = '<p>Журнал пока пуст</p>';
     cardStatus.className = 'status-badge status--info';
@@ -157,16 +162,20 @@ function renderCards() {
     const daysPassed = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     const kmPassed = currentCar.currentMileage - lastRecord.mileage;
 
-    if (daysPassed > 300) {
+    if (daysPassed > 300 && lastOilChange) {
       cardStatus.classList.add('status--error');
       cardStatus.classList.remove('status--good');
+      cardStatus.classList.remove('status--info');
       cardStatus.innerText = 'Пора на ТО (прошло более 10 месяцев)!';
-    } else if (kmPassed > 10000) {
+    } else if (kmPassed > 10000 && lastOilChange) {
       cardStatus.classList.add('status--error');
       cardStatus.classList.remove('status--good');
+      cardStatus.classList.remove('status--info');
       cardStatus.innerText = 'Пора на ТО (пробег после замены > 10 000 км)!';
     } else {
       cardStatus.classList.add('status--good');
+      cardStatus.classList.remove('status--info');
+      cardStatus.classList.remove('status--error');
       cardStatus.innerText = 'Автомобиль обслужен!'
     }
 
@@ -223,10 +232,20 @@ function renderTabs() {
 cardCarMileageInput.addEventListener('blur', () => {
   const updatedMileage = Number(cardCarMileageInput.value);
 
-  if (updatedMileage > 0 || updatedMileage >= cardLastOilChange.mileage) {
-    garage[currentCarIndex].currentMileage = updatedMileage;
-    renderCards();
+  const currentCar = garage[currentCarIndex];
+  const lastRecord = currentCar.history[currentCar.history.length - 1];
+
+  const minMileage = lastRecord ? lastRecord.mileage : 0;
+  console.log(minMileage)
+
+  if (updatedMileage < minMileage) {
+
+    errorMinMileageModal.classList.add('modal--open');
+    cardCarMileageInput.value = currentCar.currentMileage;
+  } else {
+    currentCar.currentMileage = updatedMileage;
     saveGarage();
+    renderCards();
   }
 });
 
@@ -259,6 +278,10 @@ confirmAddCarBtn.addEventListener('click', () => {
 closeModalBtn.addEventListener('click', () => {
   addCarModal.classList.remove('modal--open');
 });
+
+closeErrorModalBtn.addEventListener('click', () => {
+  errorMinMileageModal.classList.remove('modal--open');
+})
 
 deleteCarBtn.addEventListener('click', () => {
   deleteConfirmModal.classList.add('modal--open');
@@ -302,6 +325,7 @@ saveBtn.addEventListener('click', () => {
 
   const newRecord = new ServiceRecord(serviceType.value, oilChangeCost, 'shell', currentMileage, oilChangeDate);
   garage[currentCarIndex].addRecord(newRecord);
+  garage[currentCarIndex].currentMileage = currentMileage;
   saveGarage();
 
   status.innerText = 'Данные успешно сохранены!';

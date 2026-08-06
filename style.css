@@ -365,6 +365,9 @@ input:focus {
   color: var(--error-color);
   text-align: center;
 }
+.modal__text {
+  margin-bottom: 0;
+}
 .modal__actions {
   display: flex;
   gap: 10px;

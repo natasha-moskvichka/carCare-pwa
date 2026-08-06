@@ -40,7 +40,7 @@
             <span class="car-card__row">Пробег на момент ремонта:</span>
             <strong id="cardLastOilChange" class="car-card__value">Нет данных</strong>
         </div>
-        <div class="car-card__stats" id="cardStatsContainer">
+        <div class="car-card__stats" id="cardStatsContainer" hidden>
         </div>
 
         <div class="status-badge" id="cardStatus">
@@ -128,7 +128,16 @@
         </div>
     </div>
 
+    <div class="modal" id="errorMinMileageModal">
+        <div class="modal__content">
+            <h3 class="modal__title modal__title--warning">Ошибка!</h3>
+            <p class="modal__text">Пробег не может быть меньше, чем на последнем ТО</p>
 
+            <div class="modal__actions">
+                <button type="button" class="btn tab-btn" id="closeErrorModalBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
     <div id="status"></div>
 
 </div>
