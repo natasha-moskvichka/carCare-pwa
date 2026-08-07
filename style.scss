@@ -35,7 +35,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   justify-content: center;
 }
@@ -178,6 +178,9 @@ p {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: auto;
+    min-height: 0;
+    max-height: 218px;
   }
 
   &__total {
@@ -246,7 +249,8 @@ p {
   width: 100%;
 }
 
-.tabs-container::-webkit-scrollbar {
+.tabs-container::-webkit-scrollbar,
+.car-history__list::-webkit-scrollbar {
   display: none;
 }
 
