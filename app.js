@@ -88,12 +88,6 @@ const errorMinMileageModal = document.getElementById('errorMinMileageModal');
 
 const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
 
-inputsToValidate.forEach(input => {
-  input.addEventListener('input', () => {
-    input.value = input.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
-  })
-})
-
 function loadGarage() {
   const rawDate = localStorage.getItem('autoGarage');
 
@@ -228,6 +222,12 @@ function renderTabs() {
     tabsContainer.appendChild(btn);
   })
 }
+
+inputsToValidate.forEach(input => {
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+  })
+})
 
 cardCarMileageInput.addEventListener('blur', () => {
   const updatedMileage = Number(cardCarMileageInput.value);
