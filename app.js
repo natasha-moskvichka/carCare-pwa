@@ -1,28 +1,4 @@
-const html = document.documentElement;
-const themeToggleBtn = document.getElementById('themeToggleBtn');
-
-const saveTheme = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', saveTheme);
-
-function toggleTheme() {
-  let currentTheme = html.getAttribute('data-theme');
-  let newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  html.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-
-  renderThemeIcon();
-}
-
-function renderThemeIcon() {
-  const currentTheme = html.getAttribute('data-theme');
-  if (currentTheme === 'light') {
-    themeToggleBtn.innerHTML = `<svg class="icon-theme"><use href="fonts/sprite.svg#light-theme"></use></svg>`;
-  } else {
-    themeToggleBtn.innerHTML = `<svg class="icon-theme"><use href="fonts/sprite.svg#dark-theme"></use></svg>`;
-  }
-}
-
-themeToggleBtn.addEventListener('click', toggleTheme);
+import {toggleTheme, renderThemeIcon} from './theme.js';
 
 let currentCarIndex = null;
 
@@ -87,6 +63,7 @@ const cardStatsContainer = document.getElementById('cardStatsContainer');
 const errorMinMileageModal = document.getElementById('errorMinMileageModal');
 const printReportBtn = document.getElementById('printReportBtn');
 const historyChart = document.getElementById('historyChart');
+const buttonBtn = document.querySelectorAll('.button-nav__item');
 
 const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
 
@@ -250,6 +227,20 @@ function renderTabs() {
     tabsContainer.appendChild(btn);
   })
 }
+
+buttonBtn.forEach(btn => {
+  btn.classList.remove('button-nav__item--active');
+
+  btn.addEventListener('click', (evt) => {
+    const target = evt.target;
+
+    if(target.closest("button")) {
+      buttonBtn.forEach(btn => {btn.classList.remove('button-nav__item--active')})
+      btn.classList.add('button-nav__item--active');
+    }
+  })
+
+})
 
 printReportBtn.addEventListener('click', () => {
   window.print();

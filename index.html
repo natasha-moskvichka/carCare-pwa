@@ -14,51 +14,62 @@
 <body>
 
 <div class="container">
-    <h1>АвтоБорт</h1>
     <button id="themeToggleBtn" class="btn btn__toggle-theme"></button>
-    <p>Контроль обслуживания</p>
-    <button type="button" class="btn add-btn" id="addCarBtn" aria-label="Добавить автомобиль">+
+    <button type="button" class="btn add-btn" id="addCarBtn" aria-label="Добавить автомобиль">
+        <svg style="width: 16px; height: 16px">
+            <use href="fonts/sprite.svg#plus"></use>
+        </svg>
     </button>
     <div class="tabs-container" id="tabsContainer"></div>
 
-    <div class="car-card" id="carCard">
-        <h2 id="cardCarName" class="car-card__title">Загрузка...</h2>
-        <button type="button" class="btn tab-btn--setting" id="openServiceModalBtn" aria-label="Настройки">
+    <section>
+        <h2 class="visually-hidden">Карточка автомобиля</h2>
+        <div class="car-card" id="carCard">
+            <h2 id="cardCarName" class="car-card__title">Загрузка...</h2>
+            <button type="button" class="btn tab-btn--setting" id="openServiceModalBtn" aria-label="Настройки">
             <span>
-                <svg>
+                <svg style="width: 20px; height: 20px">
                     <use href="fonts/sprite.svg#settings"></use>
                 </svg>
             </span>
-        </button>
-        <div class="info-row">
-            <span class="car-card__row">Текущий пробег:</span>
-<!--            <strong id="cardCarMileage" class="car-card__value">0 км</strong>-->
-            <input type="text" id="cardCarMileageInput" class="car-card__value car-card__input-mileage" value="0">
-        </div>
-        <div class="info-row">
-            <span class="car-card__row">Пробег на момент ремонта:</span>
-            <strong id="cardLastOilChange" class="car-card__value">Нет данных</strong>
-        </div>
-        <div class="car-card__stats" id="cardStatsContainer" hidden>
-        </div>
+            </button>
+            <div class="info-row">
+                <span class="car-card__row">Текущий пробег:</span>
+                <!--            <strong id="cardCarMileage" class="car-card__value">0 км</strong>-->
+                <input type="text" id="cardCarMileageInput" class="car-card__value car-card__input-mileage" value="0">
+            </div>
+            <div class="info-row">
+                <span class="car-card__row">Пробег на момент ремонта:</span>
+                <strong id="cardLastOilChange" class="car-card__value">Нет данных</strong>
+            </div>
+            <div class="car-card__stats" id="cardStatsContainer" hidden>
+            </div>
 
-        <div class="status-badge" id="cardStatus">
-            Статус неизвестен
+            <div class="status-badge" id="cardStatus">
+                Статус неизвестен
+            </div>
+
+            <button type="button" class="btn tab-btn--delete" id="deleteCarBtn">Удалить этот автомобиль</button>
         </div>
+    </section>
 
-        <button type="button" class="btn tab-btn--delete" id="deleteCarBtn">Удалить этот автомобиль</button>
-    </div>
+    <section>
+        <h2 class="visually-hidden">История автомобиля</h2>
+        <div class="car-history" id="carHistory">
+            <h3 class="car-history__title">История обслуживания</h3>
+            <div class="car-history__list" id="historyList"></div>
+            <div class="car-history__chart" id="historyChart"></div>
+            <button type="button" class="btn tab-btn" id="printReportBtn">Экспорт истории обслуживания</button>
+            <div class="car-history__total" id="historyTotal">Всего расходов: 0 ₽</div>
+        </div>
+    </section>
 
-    <div class="car-history" id="carHistory">
-        <h3 class="car-history__title">История обслуживания</h3>
-        <div class="car-history__list" id="historyList"></div>
-        <div class="car-history__chart" id="historyChart"></div>
-        <button type="button" class="btn tab-btn" id="printReportBtn">Экспорт истории обслуживания</button>
-        <div class="car-history__total" id="historyTotal">Всего расходов: 0 ₽</div>
-    </div>
+    <section>
+        <h2 class="visually-hidden">Инофрмация автомобиля</h2>
+    </section>
 
-    <div class="modal modal--bottom" id="serviceModal">
-        <div class="modal__content modal__content--bottom">
+    <div class="modal modal--button" id="serviceModal">
+        <div class="modal__content modal__content--button">
             <h3 class="form-card__title">Внести новую запись о ТО</h3>
 
             <div class="input-group">
@@ -120,7 +131,8 @@
     <div class="modal" id="deleteConfirmModal">
         <div class="modal__content">
             <h3 class="modal__title modal__title--warning">Подтвердите удаление</h3>
-            <p>Вы точно хотите навсегда удалить этот автомобиль и всю его историю? Восстановить данные будет невозможно.</p>
+            <p>Вы точно хотите навсегда удалить этот автомобиль и всю его историю? Восстановить данные будет
+                невозможно.</p>
 
             <div class="modal__actions">
                 <button type="button" class="btn delete-btn" id="trueDeleteBtn">Да, удалить</button>
@@ -141,9 +153,33 @@
     </div>
     <div id="status"></div>
 
+    <div class="button-nav">
+        <button type="button" class="btn button-nav__item button-nav__item--active" id="navHomeBtn"
+                aria-label="На главную">
+            <svg style="width: 20px; height: 20px">
+                <use href="fonts/sprite.svg#home"></use>
+            </svg>
+        </button>
+        <button type="button" class="btn button-nav__item" id="navSettingsBtn" aria-label="Настройки">
+            <svg style="width: 20px; height: 20px">
+                <use href="fonts/sprite.svg#settings"></use>
+            </svg>
+        </button>
+        <button type="button" class="btn button-nav__item" id="navInfoBtn" aria-label="Информация">
+            <svg style="width: 12px; height: 12px">
+                <use href="fonts/sprite.svg#info"></use>
+            </svg>
+        </button>
+        <button type="button" class="btn button-nav__item" id="navHistoryBtn" aria-label="История">
+            <svg style="width: 14px; height: 14px">
+                <use href="fonts/sprite.svg#history"></use>
+            </svg>
+        </button>
+    </div>
+
 </div>
 
-<script src="app.js"></script>
+<script src="app.js" type="module"></script>
 </body>
 
 </html>

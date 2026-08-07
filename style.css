@@ -31,6 +31,17 @@
   box-sizing: border-box;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-color);
@@ -50,13 +61,6 @@ body {
   position: relative;
 }
 
-h1 {
-  color: var(--text-accent);
-  margin-bottom: 5px;
-  font-size: 28px;
-  text-align: center;
-}
-
 p {
   color: var(--text-muted);
   margin-top: 0;
@@ -74,7 +78,6 @@ p {
   transition: all 0.2s ease;
   border: 0;
   display: flex;
-  min-width: 44px;
   align-items: center;
   justify-content: center;
   background-color: transparent;
@@ -452,10 +455,45 @@ input::placeholder {
   top: 0;
 }
 
-.icon-theme,
-svg {
+.icon-theme {
   width: 24px;
   height: 24px;
+}
+
+.button-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  height: 65px;
+  background-color: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+  padding-bottom: env(safe-area-inset-bottom); /* Защита для челок новых айфонов */
+}
+.button-nav__item {
+  background: transparent;
+  color: var(--text-muted);
+  display: flex;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.button-nav__item span {
+  font-size: 20px;
+}
+
+.button-nav__item small {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.button-nav__item--active {
+  color: var(--text-accent);
 }
 
 #status {
