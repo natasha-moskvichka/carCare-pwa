@@ -85,6 +85,8 @@ const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 const cardStatsContainer = document.getElementById('cardStatsContainer');
 
 const errorMinMileageModal = document.getElementById('errorMinMileageModal');
+const printReportBtn = document.getElementById('printReportBtn');
+const historyChart = document.getElementById('historyChart');
 
 const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
 
@@ -118,6 +120,8 @@ function saveGarage() {
 function renderCards() {
   historyList.innerHTML = '';
   cardStatsContainer.innerHTML = '';
+  historyChart.innerHTML = '';
+
   let totalCost = 0;
   const lastRepairs = {};
 
@@ -174,16 +178,40 @@ function renderCards() {
     }
 
     currentCar.history.forEach(record => {
+      totalCost += record.cost;
+    })
+
+    currentCar.history.forEach(record => {
+      const percent = totalCost > 0 ? Math.round((record.cost / totalCost) * 100) : 0;
+
       const itemHTML = `
       <div class="history-item">
-      <div class="history-item__main">
-      <span class="history-item__type">${record.type}</span>
-      <span class="history-item__meta">Пробег: ${record.mileage} км | Дата: ${record.date}</span>  
-</div>
-       <span class="history-item__cost">${record.cost} ₽</span>
-</div>`;
+        <div class="history-item__main">
+          <span class="history-item__type">${record.type}</span>
+          <span class="history-item__meta">Пробег: ${record.mileage} км | Дата: ${record.date}</span>  
+        </div>
+        <span class="history-item__cost">${record.cost} ₽</span>
+      </div>`;
 
-      totalCost += record.cost;
+      let barClass = '';
+
+      switch (record.type) {
+        case 'Замена масла':
+          barClass = 'oil';
+          break;
+        case 'Замена колодок' :
+          barClass = 'brakes';
+          break;
+        case 'Замена фильтра' :
+          barClass = 'filter';
+          break;
+        default:
+          barClass = 'other';
+      }
+
+      const barHTML = `<div class="chart-bar chart-bar--${barClass}" style="width: ${percent}%"></div>`;
+      historyChart.insertAdjacentHTML('beforeend', barHTML);
+
       lastRepairs[record.type] = record;
 
       historyList.insertAdjacentHTML("beforeend", itemHTML);
@@ -222,6 +250,10 @@ function renderTabs() {
     tabsContainer.appendChild(btn);
   })
 }
+
+printReportBtn.addEventListener('click', () => {
+  window.print();
+})
 
 inputsToValidate.forEach(input => {
   input.addEventListener('input', () => {
