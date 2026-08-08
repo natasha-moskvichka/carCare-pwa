@@ -14,16 +14,13 @@
 <body>
 
 <div class="container">
-    <button id="themeToggleBtn" class="btn btn__toggle-theme"></button>
-    <button type="button" class="btn add-btn" id="addCarBtn" aria-label="Добавить автомобиль">
-        <svg style="width: 18px; height: 18px">
-            <use href="fonts/sprite.svg#plus"></use>
-        </svg>
-    </button>
     <div class="tabs-container" id="tabsContainer"></div>
 
-    <section>
+    <section class="app-page app-page--active" id="pageHome">
         <h2 class="visually-hidden">Карточка автомобиля</h2>
+        <button type="button" class="btn add-btn" id="addCarBtn" aria-label="Добавить автомобиль">
+            Добавить автомобиль</button>
+
         <div class="car-card" id="carCard">
             <h2 id="cardCarName" class="car-card__title">Загрузка...</h2>
             <button type="button" class="btn tab-btn--setting" id="openServiceModalBtn" aria-label="Настройки">
@@ -33,7 +30,6 @@
             </button>
             <div class="info-row">
                 <span class="car-card__row">Текущий пробег:</span>
-                <!--            <strong id="cardCarMileage" class="car-card__value">0 км</strong>-->
                 <input type="text" id="cardCarMileageInput" class="car-card__value car-card__input-mileage" value="0">
             </div>
             <div class="info-row">
@@ -51,7 +47,12 @@
         </div>
     </section>
 
-    <section>
+    <section class="app-page" id="pageSettings">
+        <h2 class="visually-hidden">Переключение темы</h2>
+        <button id="themeToggleBtn" class="btn btn__toggle-theme" aria-label="Переключение темы"></button>
+    </section>
+
+    <section class="app-page" id="pageHistory">
         <h2 class="visually-hidden">История автомобиля</h2>
         <div class="car-history" id="carHistory">
             <h3 class="car-history__title">История обслуживания</h3>
@@ -62,7 +63,7 @@
         </div>
     </section>
 
-    <section>
+    <section class="app-page" id="pageInfo">
         <h2 class="visually-hidden">Инофрмация автомобиля</h2>
     </section>
 
@@ -152,23 +153,23 @@
     <div id="status"></div>
 
     <div class="button-nav">
-        <button type="button" class="btn button-nav__item button-nav__item--active" id="navHomeBtn"
+        <button type="button" class="btn button-nav__item button-nav__item--active" id="navHomeBtn" data-page="pageHome"
                 aria-label="На главную">
             <svg style="width: 20px; height: 20px">
                 <use href="fonts/sprite.svg#home"></use>
             </svg>
         </button>
-        <button type="button" class="btn button-nav__item" id="navSettingsBtn" aria-label="Настройки">
+        <button type="button" class="btn button-nav__item" id="navSettingsBtn" data-page="pageSettings" aria-label="Настройки">
             <svg style="width: 22px; height: 22px">
                 <use href="fonts/sprite.svg#settings"></use>
             </svg>
         </button>
-        <button type="button" class="btn button-nav__item" id="navInfoBtn" aria-label="Информация">
+        <button type="button" class="btn button-nav__item" id="navInfoBtn" data-page="pageInfo" aria-label="Информация">
             <svg style="width: 14px; height: 14px">
                 <use href="fonts/sprite.svg#info"></use>
             </svg>
         </button>
-        <button type="button" class="btn button-nav__item" id="navHistoryBtn" aria-label="История">
+        <button type="button" class="btn button-nav__item" id="navHistoryBtn" data-page="pageHistory" aria-label="История">
             <svg style="width: 14px; height: 14px">
                 <use href="fonts/sprite.svg#history"></use>
             </svg>

@@ -24,4 +24,6 @@ function renderThemeIcon() {
 
 themeToggleBtn.addEventListener('click', toggleTheme);
 
+renderThemeIcon();
+
 export {toggleTheme, renderThemeIcon};

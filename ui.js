@@ -1,4 +1,4 @@
-import {garage, currentCarIndex} from "./state.js";
+import {garage, currentCarIndex, setCurrentCarIndex} from "./state.js";
 
 const tabsContainer = document.getElementById('tabsContainer');
 const cardLastOilChange = document.getElementById('cardLastOilChange');
@@ -140,7 +140,7 @@ function renderTabs() {
     }
 
     btn.addEventListener('click', () => {
-      currentCarIndex = index;
+      setCurrentCarIndex(index);
       renderCards();
       renderTabs();
     })

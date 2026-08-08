@@ -95,6 +95,10 @@ p {
   background-color: var(--border-color);
 }
 
+.add-btn {
+  width: fit-content;
+}
+
 /* Блок Карточки */
 .car-card {
   background-color: var(--card-bg);
@@ -242,7 +246,7 @@ p {
 .tabs-container {
   display: flex;
   gap: 12px;
-  margin: 20px 0;
+  margin: 10px 0;
   overflow-x: auto;
   width: 100%;
 }
@@ -282,6 +286,16 @@ p {
   color: var(--bg-color);
   border-color: var(--text-accent);
   box-shadow: 0 0 12px rgba(224, 224, 224, 0.4);
+}
+
+.app-page {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+}
+.app-page--active {
+  display: flex;
+  gap: 10px;
 }
 
 /* Блок Формы Ввода */
@@ -450,9 +464,7 @@ input::placeholder {
 }
 
 .btn__toggle-theme {
-  position: absolute;
-  right: 0;
-  top: 0;
+  width: fit-content;
 }
 
 .icon-theme {

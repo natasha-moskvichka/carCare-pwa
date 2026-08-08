@@ -15,7 +15,7 @@ const confirmAddCarBtn = document.getElementById('confirmAddCarBtn');
 const newCarNameInput = document.getElementById('newCarName');
 const newCarMileageInput = document.getElementById('newCarMileage');
 const modalCarWarning = document.getElementById('modalCarWarning');
-
+const deleteCarBtn = document.getElementById('deleteCarBtn');
 const serviceModal = document.getElementById('serviceModal');
 const openServiceModalBtn = document.getElementById('openServiceModalBtn');
 const oilChangeDateInput = document.getElementById('oilChangeDate');
@@ -25,18 +25,25 @@ const trueDeleteBtn = document.getElementById('trueDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 const errorMinMileageModal = document.getElementById('errorMinMileageModal');
 const printReportBtn = document.getElementById('printReportBtn');
-const buttonBtn = document.querySelectorAll('.button-nav__item');
+const navBtn = document.querySelectorAll('.button-nav__item');
+const appPage = document.querySelectorAll('.app-page');
 const inputsToValidate = [newCarMileageInput, cardCarMileageInput, currentMileageInput];
 
-buttonBtn.forEach(btn => {
-  btn.classList.remove('button-nav__item--active');
-
+navBtn.forEach(btn => {
   btn.addEventListener('click', (evt) => {
     const target = evt.target;
 
     if(target.closest("button")) {
-      buttonBtn.forEach(btn => {btn.classList.remove('button-nav__item--active')})
+      navBtn.forEach(btn => {btn.classList.remove('button-nav__item--active')})
       btn.classList.add('button-nav__item--active');
+
+      const pageId = btn.dataset.page;
+      appPage.forEach(page => {
+        page.classList.remove('app-page--active');
+        if (page.id === pageId) {
+          page.classList.add('app-page--active');
+        }
+      })
     }
   })
 
@@ -119,9 +126,9 @@ trueDeleteBtn.addEventListener('click', () => {
   saveGarage();
 
   if (garage.length === 0) {
-    currentCarIndex = null;
+    setCurrentCarIndex(null);
   } else {
-    currentCarIndex = 0;
+    setCurrentCarIndex(0);
   }
 
   deleteConfirmModal.classList.remove('modal--open');
@@ -173,4 +180,3 @@ serviceModal.addEventListener('click', (evt) => {
 loadGarage();
 renderCards();
 renderTabs();
-// renderThemeIcon()
