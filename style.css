@@ -462,14 +462,14 @@ input::placeholder {
 
 .button-nav {
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 400px;
-  height: 65px;
+  max-width: 380px;
   background-color: var(--card-bg);
-  border-top: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -485,11 +485,6 @@ input::placeholder {
 }
 .button-nav__item span {
   font-size: 20px;
-}
-
-.button-nav__item small {
-  font-size: 11px;
-  font-weight: 500;
 }
 
 .button-nav__item--active {
