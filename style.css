@@ -490,10 +490,13 @@ input::placeholder {
 }
 .button-nav__item {
   background: transparent;
+  flex-direction: column;
   color: var(--text-muted);
   display: flex;
   cursor: pointer;
   transition: color 0.2s;
+  font-size: 10px;
+  gap: 2px;
 }
 .button-nav__item span {
   font-size: 20px;
