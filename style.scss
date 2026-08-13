@@ -510,6 +510,7 @@ input {
   border: 1px solid var(--border-color);
   border-radius: 10px;
   display: flex;
+
   justify-content: space-around;
   align-items: center;
   z-index: 999;
@@ -517,10 +518,13 @@ input {
 
   &__item {
     background: transparent;
+    flex-direction: column;
     color: var(--text-muted);
     display: flex;
     cursor: pointer;
     transition: color 0.2s;
+    font-size: 10px;
+    gap: 2px;
 
     span {
       font-size: 20px;
